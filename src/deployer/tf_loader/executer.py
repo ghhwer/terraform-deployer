@@ -8,7 +8,7 @@ def execute_terraform(env_opts):
     chdir = env_opts['TERRAFORM_CHDIR']
     init_command = f'terraform -chdir={chdir} init'
     plan_command = f'terraform -chdir={chdir} plan -var-file="{var_file}"'
-    apply_command = f'terraform -chdir={chdir} apply -var-file="{var_file}"'
+    apply_command = f'terraform -chdir={chdir} apply -var-file="{var_file}" -auto-approve'
 
     # Initialize Terraform
     exit_code = os.system(init_command)
