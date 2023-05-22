@@ -16,6 +16,8 @@ dist/
 # Log files
 *.log
 
+poetry.lock
+
 # Package files
 *.jar
 

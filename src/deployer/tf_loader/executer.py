@@ -35,17 +35,24 @@ class TfLoader():
         # Options
         self.options = options
         self.credentials = credentials
-        self.state_file_loader = self.solve_state_file_loader()
-
+        
         # Options parse
         terraform_vars_path = self.options.get('TERRAFORM_VARS_FILE', '/opt/deployer/vars.tfvars')
         terraform_ch_dir = self.options.get('TERRAFORM_CHDIR', '/opt/deployer/infra')
         self.options['TERRAFORM_VARS_FILE'] = terraform_vars_path
         self.options['TERRAFORM_CHDIR'] = terraform_ch_dir
+
+        self.state_file_loader = self.solve_state_file_loader()
     
     def run_terraform(self,):
+        print('Syncing with state file loader')
+        self.state_file_loader.get_file()
         # Execute Terraform
-        execute_terraform(self.options)
+        try:
+            execute_terraform(self.options)
+        except RuntimeError as e:
+            print('There was an error executing terraform, syncing tf_state anyways...')
+        self.state_file_loader.put_file()
 
     def solve_state_file_loader(self):
         tf_state_loader = self.options.get('TF_STATE_LOADER')

@@ -50,7 +50,8 @@ Here is an example `.envfile.json`:
 "SKIP_APPLY": true,
 "EXPECT_SECRETS_FOR": ["AWS"],
 "TF_STATE_LOCATION": "s3://{bucket}/",
-"TF_STATE_LOADER": "AWS_S3"
+"TF_STATE_LOADER": "AWS_S3",
+"AWS_REGION": "sa-east-1"
 }
 ```
 ### `.envsecrets.json`
