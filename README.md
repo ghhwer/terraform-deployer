@@ -8,6 +8,7 @@ Before using Terraform Deployer, ensure that you have the following dependencies
 
 - Docker
 - Docker Compose
+- Make
 
 ## Configuration
 
@@ -69,11 +70,21 @@ Before using Terraform Deployer, you need to build the `tf-deployer` image. Run 
 make build
 ```
 
+
 To use the Terraform Deployer tool, follow these steps:
 - Create the docker-compose.yaml file with the appropriate configuration, as described above.
 - Create the .envfile.json and .envsecrets.json files with the required parameters and secrets, as described above.
 - Open a terminal or command prompt and navigate to the directory where the docker-compose.yaml file is located.
 - Run the following command to start the deployment:
+
 ``` bash
 docker-compose up
 ```
+
+The Terraform Deployer tool will read the configuration files and initiate the deployment process based on the provided parameters.
+
+# License
+This project is licensed under the MIT License.
+
+# Contributions
+Contributions are welcome! If you encounter any issues or have suggestions for improvements, please create an issue or submit a pull request on the GitHub repository.
