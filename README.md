@@ -27,10 +27,31 @@ services:
             - ./infra:/opt/deployer/infra
 ```
 
+## `The basic project structure`
+```
+my-project
+|- app
+    |--"Whatever additional files your project needs"
+|- infra
+    |--...
+    |--main.tf
+    |--...
+|- docker-compose.yaml 
+|- .envfile.json
+|- .envsecrets.json
+|- .artifacts.json (optional)
+```
 
-The configuration is done through two JSON files: `.envfile.json` and `.envsecrets.json`:
+## `Configuration files`
+The configuration is done through JSON files: 
+- `.envfile.json`
+    -  This file allows the user to specify configurations regarding the deployment process.
+- `.envsecrets.json`
+    -  This file allows the user to specify sensitive information to the deployment process.
+- `.artifacts.json`
+    - This file allows the user to specify options as to create 'artifacts' (packages) to be pre-built.
 
-### `.envfile.json`
+### `Configuring the .envfile.json`
 
 The `.envfile.json` file contains the configuration parameters for the Terraform Deployer tool. The following parameters are supported:
 
@@ -39,8 +60,10 @@ The `.envfile.json` file contains the configuration parameters for the Terraform
 - `EXPECT_SECRETS_FOR`: An array of provider names for which secrets are expected. Supported providers are "AWS".
 - `TF_STATE_LOCATION`: The location of the Terraform state file. Use the format `s3://{bucket}/` to specify an S3 bucket location.
 - `TF_STATE_LOADER`: The loader type for the Terraform state. Supported loader types are "AWS_S3".
-- `TERRAFORM_VARS_FILE`: The path to the Terraform variables file.
-- `TERRAFORM_CHDIR`: The working directory for Terraform commands.
+- `TERRAFORM_VARS_FILE`: The path to the Terraform variables file. 
+    -   (defaults to /opt/deployer/vars.tfvars)
+- `TERRAFORM_CHDIR`: The working directory for Terraform commands. 
+    -   (defaults to /opt/deployer/infra)
 
 Here is an example `.envfile.json`:
 
@@ -54,14 +77,35 @@ Here is an example `.envfile.json`:
 "AWS_REGION": "sa-east-1"
 }
 ```
-### `.envsecrets.json`
+### `Configuring the .envsecrets.json`
 
 The `.envsecrets.json` file contains the secrets required by the Terraform Deployer tool. The following secrets are expected for both the "AWS" provider and the "AWS_S3" state loader:
 
 - `ACCESS_KEY`: The access key for the AWS account.
 - `SECRET_ACCESS_KEY`: The secret access key for the AWS account.
 
-**Note:** AWS support on machine level configuration is still in development.
+**Note:** AWS support on machine level (AWS CLI) configuration is still in development.
+
+### `Configuring the .artifacts.json`
+
+The `.envsecrets.json` file contains the instructions to create/build artifact files, they may be a zip folder or other build/test sub-module in your deploy pipeline.
+
+(Currently supporting .zip artifacts only.)
+
+The following parameters are supported at the moment:
+
+- `ZIP_ARTIFACTS`: A list of defined folder/target to be created before the terraforming process begin.
+    - Example: 
+    ``` json
+    {
+        "ZIP_ARTIFACTS":[
+            {
+                "source": "/opt/deployer/artifacts/my-app",
+                "target": "/opt/deployer/infra/dist/my-app.zip"
+            }
+        ]
+    }
+    ```
 
 ## Usage
 
