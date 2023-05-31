@@ -101,7 +101,8 @@ The following parameters are supported at the moment:
         "ZIP_ARTIFACTS":[
             {
                 "source": "/opt/deployer/artifacts/my-app",
-                "target": "/opt/deployer/infra/dist/my-app.zip"
+                "target": "/opt/deployer/infra/dist/my-app.zip",
+                "include_root": false
             }
         ]
     }

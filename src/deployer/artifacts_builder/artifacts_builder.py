@@ -8,7 +8,8 @@ def zip_archive_runner(zip_archive_definition):
         if 'source' in zip_artifact and 'target' in zip_artifact:
             source = zip_artifact['source']
             target = zip_artifact['target']
-            create_zip_from_folder(source, target)
+            include_root = zip_artifact.get('include_root', False)
+            create_zip_from_folder(source, target, include_root=include_root)
         else:
             raise ValueError(f"Error while parsing ZIP_ARTIFACTS, no source or target found at index {i}")
 
