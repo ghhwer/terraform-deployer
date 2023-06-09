@@ -127,7 +127,7 @@ The following parameters are supported at the moment:
         ]
     }
     ```
-**Note:** When using SSH, make sure to map the keys to the running container's root user (/home/root/.ssh).
+**Note:** When using SSH, make sure to map the keys to the running container's root user (/root/.ssh).
 
 ## Usage
 
