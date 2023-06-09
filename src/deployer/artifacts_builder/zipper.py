@@ -3,6 +3,7 @@ import shutil
 import zipfile
 
 def create_zip_from_folder(source, target, include_root=False):
+    print(f'creating ZIP artifact from {source} to {target}')
     # Create the target directory if it does not exist
     target_dir = os.path.dirname(target)
     if not os.path.exists(target_dir):
