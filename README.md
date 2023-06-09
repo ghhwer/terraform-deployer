@@ -108,6 +108,27 @@ The following parameters are supported at the moment:
     }
     ```
 
+- `GIT_ARTIFACTS`: A list of defined folder/target to be created before the terraforming process begin.
+    - Example: 
+    ``` json
+    {
+        "GIT_ARTIFACTS":[
+            {
+                "source": "https://github.com/your-user/repo/",
+                "branch": "main",
+                "target": "/opt/deployer/infra/dist/my-repo.zip",
+                "include_root": false
+            },
+            {
+                "source": "user@github.com:your-user/repo-2.git",
+                "branch": "main",
+                "target": "/opt/deployer/infra/dist/my-repo-2-no-zip",
+            },
+        ]
+    }
+    ```
+**Note:** When using SSH, make sure to map the keys to the running container's root user (/home/root/.ssh).
+
 ## Usage
 
 Before using Terraform Deployer, you need to build the `tf-deployer` image. Run the following command in the host machine:
