@@ -10,6 +10,7 @@ def main():
     env_path = '/opt/deployer/.envfile.json'
     env_secrets = '/opt/deployer/.envsecrets.json'
     artifacts = '/opt/deployer/.artifacts.json'
+
     # Get env opts
     env_opts = parse_env_file(env_path)
     env_secrets = parse_env_file(env_secrets)
@@ -29,11 +30,17 @@ def main():
     credentials = Credentials(env_opts)
 
     # Create artifacts
+    print('--Running Artifacts Builder--')
     artifacts_builder = ArtifactsBuilder(artifacts)
     artifacts_builder.run()
+    print('--Artifacts Builder Compleated--')
 
+    print('')
+
+    print('--Running Tf Loader--')
     tf_loader = TfLoader(env_opts, credentials)
     tf_loader.run_terraform()
+    print('--Tf Loader Compleated--')
 
 if __name__ == '__main__':
     main()
