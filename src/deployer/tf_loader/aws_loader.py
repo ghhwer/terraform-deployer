@@ -48,8 +48,15 @@ class StateFileLoaderS3(StateFileLoader):
         self.session = credentials.providers['AWS'].session
 
     def get_file(self,):
+        # Delete Local file if it exists
+        if os.path.exists(self.local_path):
+            os.remove(self.local_path)
+            print("Local state file has been removed")
+        else:
+            print("State file does not exist locally yet")
         if(check_s3_file_exists(self.session, self.remote_path)):
             download_s3_file(self.session, self.remote_path, self.local_path)
+            print(f'Remote file: {self.remote_path} has been downloaded')
         else:
             print(f'Remote file: {self.remote_path} does not exist, not syncing')
 

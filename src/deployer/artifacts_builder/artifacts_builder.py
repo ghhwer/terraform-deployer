@@ -28,9 +28,7 @@ class ArtifactsBuilder:
     def __init__(self, file_path='.artifacts.json'):
         self.file_path = file_path
 
-    def run(self):
-        print(f"Artifact builder is running...")
-        
+    def run(self):       
         if not os.path.exists(self.file_path):
             print(f"No artifacts to build")
             return
