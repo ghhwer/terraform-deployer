@@ -6,21 +6,25 @@ def execute_terraform(env_opts):
     # Modify these commands as per your requirement
     var_file = env_opts['TERRAFORM_VARS_FILE']
     chdir = env_opts['TERRAFORM_CHDIR']
+    destroy = env_opts.get('DESTROY', False)
     init_command = f'terraform -chdir={chdir} init'
     plan_command = f'terraform -chdir={chdir} plan -var-file="{var_file}"'
     apply_command = f'terraform -chdir={chdir} apply -var-file="{var_file}" -auto-approve'
 
     # Initialize Terraform
+    print('Initializing Terraform...')
     exit_code = os.system(init_command)
     if exit_code != 0:
         raise RuntimeError('Terraform initialization failed.')
 
     # Generate Terraform plan
+    print('Generating Terraform plan...')
     exit_code = os.system(plan_command)
     if exit_code != 0:
         raise RuntimeError('Terraform plan generation failed.')
 
-    if(env_opts.get('SKIP_APPLY', False) == False):
+    if(env_opts.get('SKIP_APPLY', False) == False or destroy == True):
+        print('Executing Terraform apply...')
         # Execute Terraform apply
         exit_code = os.system(apply_command)
         if exit_code == 0:
@@ -29,6 +33,15 @@ def execute_terraform(env_opts):
             raise RuntimeError('Terraform execution failed.')
     else:
         print('Terraform apply skipped...')
+    if destroy == True:
+        # Destroy
+        print('Destroying...')
+        destroy_command = f'terraform -chdir={chdir} destroy -var-file="{var_file}" -auto-approve'
+        exit_code = os.system(destroy_command)
+        if exit_code == 0:
+            print('Terraform steps executed successfully.')
+        else:
+            raise RuntimeError('Terraform execution failed.')
 
 class TfLoader():
     def __init__(self, options, credentials):

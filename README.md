@@ -129,6 +129,22 @@ The following parameters are supported at the moment:
     ```
 **Note:** When using SSH, make sure to map the keys to the running container's root user (/root/.ssh).
 
+- `MAKE_KEY`: A list of defined folder/target to be created before the terraforming process begin.
+    - Example: 
+    ``` json
+    {
+        "MAKE_KEY":[
+            {
+                "algorithm": "rsa",
+                "size" : 2048,
+                "path_private" : "/opt/deployer/infra/dist/my-key",
+                "path_public" : "/opt/deployer/infra/dist/my-key.pub"
+            }
+        ]
+    }
+    ```
+**Note:** Never store the private key in the repository, it's a security risk, Make sure to add the private key to the .gitignore file. Or delete them after the build process.
+
 ## Usage
 
 Before using Terraform Deployer, you need to build the `tf-deployer` image. Run the following command in the host machine:
