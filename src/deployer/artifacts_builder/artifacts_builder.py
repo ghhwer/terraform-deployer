@@ -3,6 +3,7 @@ import os
 from .zipper import create_zip_from_folder
 from .git import fetch_from_git_repo
 from .make_key import make_public_private_key_pair
+from .reference_bundler import bundle_yaml, bundle_json
 
 def zip_archive_runner(zip_archive_definition):
     for i, zip_artifact in enumerate(zip_archive_definition):
@@ -36,6 +37,21 @@ def make_key_runner(make_key_definition):
         else:
             raise ValueError(f"Error while parsing MAKE_KEY: either algorithm, size, path_public or path_private is missing at index {i}")
 
+def make_bundle_runner(make_bundle_definition):
+    for i, bundle_definition in enumerate(make_bundle_definition):
+        if 'source_file' in bundle_definition and 'target_file' in bundle_definition and 'file_type' in bundle_definition:
+            source_file = bundle_definition['source_file']
+            target_file = bundle_definition['target_file']
+            file_type = bundle_definition['file_type']
+            if file_type == 'yaml':
+                bundle_yaml(source_file, target_file)
+            elif file_type == 'json':
+                bundle_json(source_file, target_file)
+            else:
+                raise ValueError(f"Error while parsing MAKE_BUNDLE: file_type {file_type} is not supported at index {i}")
+        else:
+            raise ValueError(f"Error while parsing MAKE_BUNDLE: either source_folder, target_file or file_type is missing at index {i}")
+
 class ArtifactsBuilder:
     def __init__(self, file_path='.artifacts.json'):
         self.file_path = file_path
@@ -54,3 +70,5 @@ class ArtifactsBuilder:
             git_fetch_runner(artifacts['GIT_ARTIFACTS'])
         if 'MAKE_KEY' in artifacts:
             make_key_runner(artifacts['MAKE_KEY'])
+        if 'MAKE_BUNDLE' in artifacts:
+            make_bundle_runner(artifacts['MAKE_BUNDLE'])

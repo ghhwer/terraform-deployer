@@ -33,6 +33,10 @@ RUN apk add alpine-sdk
 RUN apk add curl
 RUN apk add gcc musl-dev python3-dev libffi-dev openssl-dev cargo
 RUN apk add sqlite-dev
+RUN apk add zip
+RUN apk add jq
+RUN apk add gettext
+RUN pip install yq
 
 # Install Terraform
 ENV TERRAFORM_VERSION=1.4.6
