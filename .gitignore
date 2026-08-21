@@ -18,6 +18,9 @@ dist/
 
 poetry.lock
 
+# Local Artifactory / private PyPI overrides for build.sh
+build.local.env
+
 # Package files
 *.jar
 

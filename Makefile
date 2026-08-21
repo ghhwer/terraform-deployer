@@ -1,4 +1,4 @@
-.PHONY: run
+.PHONY: build
 
 build:
-	sudo docker build --tag tf-deployer .
+	./build.sh

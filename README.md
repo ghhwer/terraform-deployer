@@ -147,12 +147,32 @@ The following parameters are supported at the moment:
 
 ## Usage
 
-Before using Terraform Deployer, you need to build the `tf-deployer` image. Run the following command in the host machine:
+Before using Terraform Deployer, build the `tf-deployer` image:
 
 ```bash
-make build
+./build.sh
+# or: make build
 ```
 
+By default the image uses **public PyPI** and the official Poetry installer. No private package index is required.
+
+### Optional custom Artifactory / PyPI
+
+If you need a private mirror, copy the example local env and edit it (the real file is gitignored):
+
+```bash
+cp build.local.env.example build.local.env
+# set CUSTOM_PYPI_URL / CUSTOM_PYPI_HOST / USE_CUSTOM_PYPI=true
+./build.sh
+```
+
+Or pass flags once:
+
+```bash
+./build.sh --url https://artifactory.example/simple/ --host artifactory.example
+```
+
+Custom sources are **not** committed in `pyproject.toml`; they are registered only during the Docker build when opted in.
 
 To use the Terraform Deployer tool, follow these steps:
 - Create the docker-compose.yaml file with the appropriate configuration, as described above.
