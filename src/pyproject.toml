@@ -5,6 +5,10 @@ description = ""
 authors = ["Caio Cominato <caio.cominato@fiberfast.com.br>"]
 readme = "README.md"
 
+# Custom package indexes are optional and injected at image build time by
+# build.sh / Dockerfile when USE_CUSTOM_PYPI=true. Do not commit a private
+# [[tool.poetry.source]] here so the public repo stays usable.
+
 [tool.poetry.dependencies]
 python = "^3.10"
 boto3 = "^1.26.137"
